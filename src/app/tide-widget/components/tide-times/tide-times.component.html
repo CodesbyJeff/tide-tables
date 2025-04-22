@@ -1,0 +1,10 @@
+<div class="tide-times">
+    <div *ngFor="let day of next3Days">
+      <h4>{{ day.date | date }}</h4>
+      <ul>
+        <li *ngFor="let tide of day.tides">
+          {{ tide.time }} - {{ tide.type }} - {{ tide.height }} m
+        </li>
+      </ul>
+    </div>
+  </div>

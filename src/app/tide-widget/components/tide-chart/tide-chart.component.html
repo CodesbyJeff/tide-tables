@@ -1,0 +1,41 @@
+<div class="tbox">
+  <div class="container">
+    <!-- HEADER -->
+    <header class="header">
+      <h1>Natal, RN - <data> Sexta, 11 Abril 11:30 </data>
+      </h1>
+      <img class="logo" src="/public-images/cbmrn.png" alt="logo">
+    </header>
+    <!-- TIDE CHART DAY -->
+    <article>
+      <div class="bg">
+        <section class="app-tide-chart">
+          <ngx-charts-area-chart [results]="tideData" [view]="[400,120]" [xAxis]="false" [yAxis]="true" [legend]="false"
+            [showXAxisLabel]="false" [xAxisLabel]="'Hora'" [showYAxisLabel]="false" [yAxisLabel]="'Altura (m)'"
+            [autoScale]="true" [curve]="curve" [gradient]="true" [yScaleMin]="-0.5" [scheme]="colorScheme">
+          </ngx-charts-area-chart>
+        </section>
+      </div>
+      <section class="tideTableToday">
+        <table>
+          <thead>
+            <tr>
+              <!-- <th>Data</th> -->
+              <th>Hora</th>
+              <!-- <th>Tipo</th> -->
+              <th>Altura (m)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tide of tideTableToday">
+              <!-- <td>{{ tide.date | date }}</td> -->
+              <td>{{ tide.time }}</td>
+              <!-- <td>{{ tide.type }}</td> -->
+              <td>{{ tide.height }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </div>
+</div>

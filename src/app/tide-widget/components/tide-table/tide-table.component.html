@@ -1,0 +1,18 @@
+<table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Hora</th>
+        <th>Tipo</th>
+        <th>Altura (m)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tide of tideTable">
+        <td>{{ tide.date | date }}</td>
+        <td>{{ tide.time }}</td>
+        <td>{{ tide.type }}</td>
+        <td>{{ tide.height }}</td>
+      </tr>
+    </tbody>
+  </table>
