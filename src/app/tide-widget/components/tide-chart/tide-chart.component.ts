@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Color, ScaleType, NgxChartsModule } from '@swimlane/ngx-charts';
 import * as shape from 'd3-shape';
 import { TideTimesComponent } from "../tide-times/tide-times.component";
+import moment from 'moment';
+import { TideService } from '../../../tide.service';
 
 
 @Component({
@@ -12,7 +14,9 @@ import { TideTimesComponent } from "../tide-times/tide-times.component";
   styleUrl: './tide-chart.component.scss'
 })
 
-export class TideChartComponent {
+export class TideChartComponent implements OnInit {
+
+  today: any = moment().format("YYYY-MM-DD")
 
   colorScheme: any = {
     domain: [
@@ -37,31 +41,21 @@ export class TideChartComponent {
 
   tideTableToday: any = [
 
-    { date: "2025-04-11", time: "03:00", type: "high", height: "2.02" },
-    { date: "2025-04-11", time: "09:00", type: "low", height: "0.12" },
-    { date: "2025-04-11", time: "15:00", type: "high", height: "2.2" },
-    { date: "2025-04-11", time: "21:00", type: "low", height: "0.14" },
-
   ]
 
 
-  tideData = [
-    {
-      name: 'Maré',
-      series: [
-        // { name: '00:00', value: 0.17 },
-        { name: '03:00', value: 2.02 },
-        // { name: '06:00', value: 1.2 },
-        { name: '09:00', value: 0.12 },
-        // { name: '12:00', value: 1.1 },
-        { name: '15:00', value: 2.2 },
-        // { name: '18:00', value: 1.3 },
-        { name: '21:00', value: 0.14 },
-        // { name: '23:59', value: 1.6 }
-        // ...
-      ]
-    }
+  tideData: any = [
+
   ];
+
+  /**
+   *
+   */
+  constructor(
+    private tideService: TideService
+  ) {
+
+  }
 
   // Tamanho do gráfico (largura x altura)
   // view: [number, number] = [1000, 500];
@@ -73,4 +67,28 @@ export class TideChartComponent {
   // autoScale = true;
   curve = shape.curveMonotoneX;
   // curve = 'curveNatural'; // ou 'curveBasis', etc.
+
+  ngOnInit(): void {
+    this.setupPage()
+  }
+  setupPage() {
+    this.getData();
+  }
+
+  getData() {
+    let data = this.tideService.getTideData()
+    this.tideTableToday = data || [];
+    this.tideData = [
+      {
+        name: 'Maré',
+        series: (data || []).map((it:any)=>{
+          return {
+            name:it.time,
+            value:it.height
+          }
+        })
+      }
+    ]
+  }
+
 }
