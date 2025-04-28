@@ -75,16 +75,18 @@ export class TideChartComponent implements OnInit {
     this.getData();
   }
 
-  getData() {
-    let data = this.tideService.getTideData()
-    this.tideTableToday = data || [];
+  async getData() {
+    let data: any = await this.tideService.getTideData(this.today)
+    console.log(data);
+
+    this.tideTableToday = data?.heights || [];
     this.tideData = [
       {
         name: 'Maré',
-        series: (data || []).map((it:any)=>{
+        series: (data?.heights || []).map((it: any) => {
           return {
-            name:it.time,
-            value:it.height
+            name: it.time,
+            value: it.height
           }
         })
       }

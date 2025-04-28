@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import $ from 'jquery'
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +9,15 @@ export class TideService {
 
   constructor
     (
-    //private http: HttpClient
+
   ) { }
 
-  getTideData(): any {
-    // return this.http.get('#api')
-    return [
-      { time: "02:00", height: 2.02 },
-      { time: "09:00", height: 0.12 },
-      { time: "15:00", height: 2.3 },
-      { time: "21:00", height: 0.14 },
-    ]
+  getTideData(date) {
+    return new Promise(resolve => {
+      $.ajax({
+        url: 'https://us-central1-cfap-app.cloudfunctions.net/api_sisbom/ws/tide_table/' + date,
+        dataType: 'json'
+      }).done((data) => resolve(data || []));
+    })
   }
 }
